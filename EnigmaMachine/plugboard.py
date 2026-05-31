@@ -1,6 +1,6 @@
 class Plugboard:
     def __init__(self, connections=None):
-        self.connections = {}
+        self.mapping = {}
         
         if connections:
             self.add_connection(connections)
@@ -21,15 +21,19 @@ class Plugboard:
             if a == b:
                 raise ValueError(f"A letra '{a}' não pode ser conectada a si mesma.")
             
-            if a in self.connections or b in self.connections:
+            # Trava 3: garante que nenhuma das letras já esteja usando um cabo
+            if a in self.mapping or b in self.mapping:
                 raise ValueError(f"Os caracteres '{a}' ou '{b}' já estão conectados.")
             
-            self.connections[a] = b
-            self.connections[b] = a
+            # qualquer par válido é adicionado ao mapeamento e cria a conexão bidirecional
+            self.mapping[a] = b
+            self.mapping[b] = a
             
-    
-    def swap(self, letter):
-        return self.connections.get(letter, letter)
+        # simula a passagem de um sinal pelo plugboard, 
+        # onde cada letra é substituída pela sua correspondente no mapeamento, 
+        # ou permanece a mesma se não estiver conectada   
+    def swap(self, char):
+        return self.mapping.get(char, char)
     
             
     
