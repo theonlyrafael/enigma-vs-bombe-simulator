@@ -4,7 +4,7 @@ Este repositório contém uma implementação em Python da máquina de criptogra
 
 ## Contextualização das Máquinas
 
-Nesse sentido, o simulador da Enigma baseia o seu funcionamento computacional no fluxo eletromecânico real de rotores e refletores. Ademais, a ferramenta aplica os exatos princípios matemáticos de permutação que tornavam a comunicação de guerra impenetrável. Por outro lado, a máquina Bombe utiliza a técnica de força bruta ancorada em um fragmento de texto claro conhecido. Desse modo, o sistema gera milhares de instâncias isoladas até interceptar a dica exata fornecida pelo operador. Consequentemente, a chave diária é quebrada e a mensagem verdadeira é revelada na tela.
+Nesse sentido, o simulador da Enigma baseia o seu funcionamento computacional no fluxo eletromecânico real de rotores e refletores. Ademais, a ferramenta aplica os exatos princípios matemáticos de permutação que tornavam a comunicação alemã virtualmente impenetrável durante a Segunda Guerra Mundial. Por outro lado, a máquina Bombe resgata o marco histórico da Inteligência Britânica liderada por Alan Turing. Historicamente, a invenção desse motor de quebra de códigos foi responsável por encurtar o conflito em estimativas de dois a quatro anos, poupando milhões de vidas. Desse modo, o sistema simula esse feito ao utilizar a técnica de força bruta ancorada em um fragmento de texto claro conhecido, gerando milhares de instâncias isoladas até interceptar a dica exata fornecida pelo operador. Consequentemente, a chave diária é quebrada e a mensagem verdadeira é revelada na tela.
 
 ## Instruções de Execução
 
