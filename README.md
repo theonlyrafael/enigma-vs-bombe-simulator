@@ -1,6 +1,8 @@
-# Simulador Enigma e Máquina Bombe
+# 🔐 Simulador Enigma e Máquina Bombe
 
-Este repositório contém uma implementação em Python da máquina de criptografia Enigma e do simulador de criptoanálise Bombe. Dessa forma, o projeto é dividido em duas frentes de operação independentes para simular a defesa e o ataque cibernético. Sendo assim, a arquitetura estruturada garante que os testes de quebra de código sejam fidedignos e isolados na memória do sistema. Portanto, o usuário experimenta o ciclo completo da comunicação militar através de terminais de operação exclusivos.
+Este projeto apresenta uma simulação em Python do funcionamento da máquina de criptografia **Enigma** e de um processo de **criptoanálise inspirado na máquina Bombe**, permitindo reproduzir, de forma prática, o ciclo entre a cifragem de uma mensagem e sua posterior tentativa de quebra.
+
+O projeto é dividido em duas frentes principais: a **criptografia**, responsável pela configuração da Enigma e geração do texto cifrado, e a **criptoanálise**, responsável por utilizar informações conhecidas da mensagem para buscar a configuração necessária para sua decifragem.
 
 ## Contextualização das Máquinas
 
