@@ -4,9 +4,13 @@ Este projeto apresenta uma simulação em Python do funcionamento da máquina de
 
 O projeto é dividido em duas frentes principais: a **criptografia**, responsável pela configuração da Enigma e geração do texto cifrado, e a **criptoanálise**, responsável por utilizar informações conhecidas da mensagem para buscar a configuração necessária para sua decifragem.
 
-## Contextualização das Máquinas
+## 📜 Contextualização das Máquinas
 
-Nesse sentido, o simulador da Enigma baseia o seu funcionamento computacional no fluxo eletromecânico real de rotores e refletores. Ademais, a ferramenta aplica os exatos princípios matemáticos de permutação que tornavam a comunicação alemã virtualmente impenetrável durante a Segunda Guerra Mundial. Por outro lado, a máquina Bombe resgata o marco histórico da Inteligência Britânica liderada por Alan Turing. Historicamente, a invenção desse motor de quebra de códigos foi responsável por encurtar o conflito em estimativas de dois a quatro anos, poupando milhões de vidas. Desse modo, o sistema simula esse feito ao utilizar a técnica de força bruta ancorada em um fragmento de texto claro conhecido, gerando milhares de instâncias isoladas até interceptar a dica exata fornecida pelo operador. Consequentemente, a chave diária é quebrada e a mensagem verdadeira é revelada na tela.
+A **Enigma** foi uma máquina eletromecânica utilizada pela Alemanha durante a Segunda Guerra Mundial para cifrar comunicações. Seu funcionamento era baseado principalmente na combinação de rotores, refletor e conexões do plugboard, produzindo uma substituição que variava a cada caractere digitado.
+
+A **Bombe**, desenvolvida pelos britânicos durante a Segunda Guerra Mundial a partir do trabalho de Alan Turing e outros pesquisadores, foi criada para auxiliar na criptoanálise das mensagens cifradas pela Enigma. Seu funcionamento explorava configurações possíveis da máquina em busca de combinações compatíveis com informações previamente conhecidas sobre a mensagem.
+
+Neste projeto, esses conceitos são utilizados para criar uma simulação computacional que permite acompanhar as duas etapas: **cifrar uma mensagem com a Enigma e tentar recuperar sua configuração por meio da criptoanálise**.
 
 ## Instruções de Execução
 
