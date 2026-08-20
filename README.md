@@ -12,6 +12,19 @@ A **Bombe**, desenvolvida pelos britânicos durante a Segunda Guerra Mundial a p
 
 Neste projeto, esses conceitos são utilizados para criar uma simulação computacional que permite acompanhar as duas etapas: **cifrar uma mensagem com a Enigma e tentar recuperar sua configuração por meio da criptoanálise**.
 
+## 📁 Estrutura do Projeto
+
+```text
+📦 enigma-vs-bombe-simulator
+├── 📂 cryptanalysis/   # Componentes relacionados à criptoanálise
+├── 📂 enigma/          # Implementação da máquina Enigma
+├── 📂 tests/           # Testes automatizados
+├── 📄 intercept.py     # Execução do processo de interceptação
+├── 📄 main.py          # Ponto de entrada da simulação da Enigma
+├── 📄 README.md
+└── 📄 LICENSE
+```
+
 ## Instruções de Execução
 
 Além disso, o software exige a utilização do terminal interativo para operar de forma plena. Para tanto, os módulos solicitam os dados de entrada de forma progressiva e guiam o usuário pela configuração estrutural do equipamento.
