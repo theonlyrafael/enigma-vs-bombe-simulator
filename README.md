@@ -45,13 +45,17 @@ A máquina realiza a normalização da entrada, removendo espaços e caracteres 
 
 Ao final da execução, será apresentado o texto cifrado em um bloco contínuo de letras maiúsculas.
 
-### 2. Painel de Interceptação
+### 🕵️ 2. Painel de Interceptação
 
-Na sequência, a execução do ataque é conduzida pelo controlador secundário de espionagem denominado intercept. Diante disso, o operador utilizará o bloco de texto cifrado gerado na defesa anterior como sua munição primária contra a máquina. Adicionalmente, insira os dados no terminal respeitando os requisitos listados a seguir.
+A etapa de criptoanálise é executada por meio do arquivo `intercept.py`.
 
-* Rotores e Refletor (Entrada esperada: Idênticos aos utilizados na fase de criptografia)
-* Plugboard Alvo (Entrada esperada: As exatas conexões da máquina inimiga ou simplesmente vazio)
-* Texto Cifrado (Entrada esperada: O texto ilegível gerado pelo painel da Enigma)
-* Texto Claro (Entrada esperada: A palavra que o usuário tem certeza absoluta estar contida na mensagem)
+O processo utiliza o texto cifrado produzido na etapa anterior e informações conhecidas sobre a mensagem para procurar uma configuração compatível com a máquina utilizada na criptografia.
 
-Por fim, o motor da Bombe iniciará o laço de repetição exaustivo. Por conseguinte, a saída final demonstrará o tempo exato de execução da engenharia reversa, a posição inicial descoberta pelos cálculos e a leitura imediata do texto decifrado.
+Para iniciar o processo, serão solicitados:
+
+- **Rotores e refletor:** os mesmos utilizados na criptografia
+- **Plugboard alvo:** as conexões utilizadas na máquina ou uma entrada vazia
+- **Texto cifrado:** o texto produzido pela Enigma
+- **Texto claro conhecido:** uma palavra ou fragmento que se sabe estar presente na mensagem original
+
+A partir dessas informações, o simulador realiza a busca pelas configurações possíveis e apresenta os resultados encontrados, incluindo a posição inicial identificada, o tempo de execução e a mensagem decifrada.
