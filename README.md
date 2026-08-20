@@ -25,21 +25,25 @@ Neste projeto, esses conceitos são utilizados para criar uma simulação comput
 └── 📄 LICENSE
 ```
 
-## Instruções de Execução
+## 🚀 Instruções de Execução
 
-Além disso, o software exige a utilização do terminal interativo para operar de forma plena. Para tanto, os módulos solicitam os dados de entrada de forma progressiva e guiam o usuário pela configuração estrutural do equipamento.
+O software utiliza o terminal interativo para receber as configurações da máquina e conduzir as etapas de criptografia e criptoanálise.
 
-### 1. Painel de Criptografia
+### 🔒 1. Painel de Criptografia
 
-A princípio, a execução da defesa ocorre através do inicializador principal denominado main. Em seguida, o sistema exigirá a configuração tática das peças criptográficas do dia. Logo, siga os parâmetros de entrada esperados listados abaixo.
+A execução da etapa de criptografia é realizada por meio do arquivo `main.py`.
 
-* Rotores (Entrada esperada: I, II, III, IV ou V)
-* Posição Inicial (Entrada esperada: Três letras juntas e válidas do alfabeto, como ABC)
-* Refletor (Entrada esperada: B ou C)
-* Plugboard (Entrada esperada: Pares de letras maiúsculas separadas por espaço, como GH IJ KL)
-* Mensagem (Entrada esperada: Frase em texto claro contendo a dica alvo do ataque)
+O programa solicitará progressivamente os parâmetros necessários para configurar a máquina:
 
-Contudo, a máquina de defesa executará a higienização dos dados removendo espaços e caracteres especiais automaticamente. Assim, a saída correta apresentará um bloco contínuo de letras maiúsculas representando o texto completamente cifrado.
+- **Rotores:** I, II, III, IV ou V
+- **Posição inicial:** três letras válidas do alfabeto, como `ABC`
+- **Refletor:** B ou C
+- **Plugboard:** pares de letras maiúsculas separados por espaço, como `GH IJ KL`
+- **Mensagem:** texto claro que será cifrado
+
+A máquina realiza a normalização da entrada, removendo espaços e caracteres especiais antes da criptografia.
+
+Ao final da execução, será apresentado o texto cifrado em um bloco contínuo de letras maiúsculas.
 
 ### 2. Painel de Interceptação
 
