@@ -1,5 +1,7 @@
 # 🔐 Simulador Enigma e Máquina Bombe
 
+![Python](https://img.shields.io/badge/Python_3.11.3-plastic?style=plastic&logo=python&logoColor=white&color=3776AB)
+
 Este projeto apresenta uma simulação em Python do funcionamento da máquina de criptografia **Enigma** e de um processo de **criptoanálise inspirado na máquina Bombe**, permitindo reproduzir, de forma prática, o ciclo entre a cifragem de uma mensagem e sua posterior tentativa de quebra.
 
 O projeto é dividido em duas frentes principais: a **criptografia**, responsável pela configuração da Enigma e geração do texto cifrado, e a **criptoanálise**, responsável por utilizar informações conhecidas da mensagem para buscar a configuração necessária para sua decifragem.
