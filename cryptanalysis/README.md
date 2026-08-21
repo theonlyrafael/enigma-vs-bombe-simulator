@@ -1,148 +1,124 @@
 # 🕵️ Módulo de Criptoanálise
 
-Este diretório contém a implementação do processo de **criptoanálise** utilizado pelo simulador para tentar descobrir a posição inicial dos rotores da máquina Enigma.
+Este diretório contém a implementação do processo de **criptoanálise** utilizado pelo simulador para buscar a configuração inicial dos rotores da máquina Enigma.
 
-A implementação é concentrada atualmente no arquivo `bombe.py`, que utiliza os componentes do módulo `enigma` para reproduzir diferentes configurações da máquina e verificar quais delas são compatíveis com informações conhecidas sobre a mensagem original.
+A implementação utiliza informações conhecidas sobre a mensagem original para testar diferentes configurações da máquina até encontrar uma posição compatível com o texto conhecido.
 
-## 🧩 Estrutura
+## 🧩 Estrutura do Módulo
 
 ```text
 cryptanalysis/
+├── README.md
 ├── __init__.py
 └── bombe.py
 ```
 
-### 🧠 `bombe.py`
+## 🧠 `bombe.py`
 
 Implementa a classe `Bombe`, responsável pelo processo de busca da configuração da Enigma.
 
-Apesar do nome fazer referência à **Bombe histórica**, a implementação deste projeto utiliza uma abordagem computacional simplificada baseada em **força bruta sobre as posições iniciais dos três rotores**.
+A classe recebe informações que permanecem fixas durante a busca, como:
 
-A classe recebe, em sua configuração:
-
-* modelo do rotor esquerdo;
-* modelo do rotor central;
-* modelo do rotor direito;
-* modelo do refletor;
+* rotor esquerdo;
+* rotor central;
+* rotor direito;
+* refletor;
 * conexões conhecidas do plugboard.
 
-Essas informações permanecem fixas durante a busca, enquanto as posições iniciais dos rotores são testadas.
+As posições iniciais dos três rotores são então testadas sistematicamente.
 
 ### 🏭 `_criar_maquina_teste()`
 
-O método `_criar_maquina_teste()` constrói uma nova `EnigmaMachine` para uma posição inicial específica.
+Este método cria uma nova `EnigmaMachine` para cada posição inicial testada.
 
-Para isso, ele:
+Para isso, são criados:
 
-1. cria um novo `Plugboard`;
-2. cria os três rotores usando `get_rotor()`;
-3. cria o refletor usando `get_reflector()`;
-4. monta uma nova `EnigmaMachine` com esses componentes.
+1. um novo `Plugboard`;
+2. três `Rotor`;
+3. um `Reflector`;
+4. uma nova `EnigmaMachine` utilizando esses componentes.
 
-Criar uma nova máquina para cada tentativa é importante porque o processamento de uma mensagem altera as posições dos rotores. Dessa maneira, cada combinação começa com uma configuração limpa e independente.
+A criação de uma máquina independente para cada tentativa garante que cada configuração seja testada a partir de seu estado inicial.
 
 ### 🔎 `quebrar_posicao()`
 
-Este método executa a busca pela posição inicial correta dos rotores.
+Este método executa a busca pela posição inicial dos rotores.
 
-Primeiro, o texto claro conhecido e o texto cifrado são normalizados. Em seguida, são geradas todas as combinações possíveis das três posições iniciais:
+O processo utiliza todas as combinações possíveis das três posições:
 
 ```text
 26 × 26 × 26 = 17.576 posições
 ```
 
-A busca é realizada por três laços aninhados:
+Para cada combinação, o método:
 
-```text
-Rotor esquerdo
-    ↓
-Rotor do meio
-    ↓
-Rotor direito
+1. cria uma nova máquina Enigma;
+2. utiliza a posição atual dos rotores;
+3. processa o texto cifrado;
+4. verifica se o resultado contém o trecho de texto claro conhecido;
+5. retorna a configuração quando uma correspondência é encontrada.
+
+Caso nenhuma configuração seja compatível com o texto conhecido, o método retorna `None`.
+
+## 🔍 Fluxo da Busca
+
+```mermaid
+flowchart TD
+    A[Texto cifrado] --> B[Texto claro conhecido]
+    B --> C[Gerar próxima posição dos rotores]
+    C --> D[Criar Enigma de teste]
+    D --> E[Processar o texto cifrado]
+    E --> F{Trecho conhecido encontrado?}
+
+    F -->|Não| C
+    F -->|Sim| G[Retornar configuração encontrada]
 ```
 
-Para cada combinação:
+A busca termina assim que uma configuração compatível é encontrada.
 
-1. uma nova `EnigmaMachine` é criada;
-2. o texto cifrado é processado;
-3. o resultado é comparado com o texto claro conhecido;
-4. caso o trecho conhecido seja encontrado, a posição atual é retornada.
+## 🔗 Relação com o Módulo Enigma
 
-A primeira posição compatível encontrada encerra a busca.
+A criptoanálise não implementa novamente os componentes da Enigma. Em vez disso, `bombe.py` reutiliza diretamente as classes e funções do módulo `enigma`.
 
-Caso nenhuma das 17.576 combinações produza um resultado contendo o texto claro conhecido, o método retorna `None`.
+```mermaid
+flowchart LR
+    A[intercept.py] --> B[Bombe]
+    B --> C[EnigmaMachine]
 
-## 🔗 Relação com o módulo Enigma
+    C --> D[Plugboard]
+    C --> E[Rotor]
+    C --> F[Reflector]
 
-O módulo de criptoanálise não possui uma implementação independente dos componentes da Enigma.
-
-Em vez disso, `bombe.py` reutiliza diretamente:
-
-```text
-cryptanalysis/bombe.py
-        │
-        ├── EnigmaMachine
-        ├── Plugboard
-        ├── get_rotor()
-        └── get_reflector()
-                │
-                ↓
-          módulo enigma/
+    B --> G[Catalog]
+    G --> E
+    G --> F
 ```
 
-Essa abordagem faz com que a criptoanálise utilize o mesmo comportamento da máquina empregado na criptografia original.
+Essa relação permite que o processo de busca utilize o mesmo comportamento da máquina empregado na etapa de criptografia.
 
-O fluxo pode ser representado da seguinte forma:
+## 🎯 Objetivo da Criptoanálise
 
-```text
-Texto cifrado
-      ↓
-Informação conhecida
-      ↓
-Geração de uma posição inicial
-      ↓
-Criação de uma Enigma de teste
-      ↓
-Descriptografia
-      ↓
-Texto compatível?
-   ↙          ↘
- Não           Sim
-  ↓             ↓
-Próxima      Retorna a
-posição      configuração
+O objetivo do módulo é encontrar uma configuração dos rotores que produza um resultado compatível com uma informação conhecida sobre a mensagem original.
+
+O fluxo geral do processo é:
+
+```mermaid
+flowchart TD
+    A[Mensagem original] --> B[Enigma]
+    B --> C[Texto cifrado]
+
+    C --> D[Criptoanálise]
+    E[Informação conhecida] --> D
+
+    D --> F[Busca de configurações]
+    F --> G[Configuração compatível]
+    G --> H[Mensagem decifrada]
 ```
 
-## ⚠️ Diferença em relação à Bombe histórica
+Dessa maneira, o módulo representa a etapa de ataque do simulador, enquanto o módulo `enigma` fornece a implementação da máquina utilizada durante os testes.
 
-O nome `Bombe` é utilizado como referência ao equipamento histórico empregado na criptoanálise da Enigma, mas esta implementação **não reproduz integralmente o funcionamento da Bombe histórica**.
+## 🧩 Papel do Módulo no Projeto
 
-Aqui, o processo é uma simulação computacional simplificada que testa sistematicamente as 17.576 posições iniciais possíveis dos três rotores e verifica se o resultado contém um trecho de texto claro previamente conhecido.
+O módulo `cryptanalysis` complementa o módulo `enigma` ao utilizar sua implementação para realizar a busca pela configuração desconhecida.
 
-Isso permite demonstrar, de maneira prática, a ideia de utilizar informações conhecidas sobre a mensagem para reduzir uma busca de configurações possíveis.
-
-## 📌 Papel do módulo no projeto
-
-O módulo `cryptanalysis` representa a etapa de ataque do simulador.
-
-Enquanto o módulo `enigma` é responsável por criar e executar a máquina utilizada para cifrar ou decifrar mensagens, este módulo reutiliza essa mesma implementação para testar configurações até encontrar uma que seja compatível com as informações conhecidas.
-
-Dessa forma, a relação entre os dois módulos é intencional:
-
-```text
-             ENIGMA
-                │
-                │ produz
-                ↓
-         Texto cifrado
-                │
-                ↓
-        CRIPTOANÁLISE
-                │
-          testa posições
-                ↓
-        Configuração provável
-                │
-                ↓
-        Mensagem decifrada
-```
+Enquanto `enigma/` é responsável pelo funcionamento da máquina, `cryptanalysis/` utiliza essa máquina como base para testar sistematicamente diferentes possibilidades até encontrar uma configuração compatível com as informações conhecidas.
