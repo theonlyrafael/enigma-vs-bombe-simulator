@@ -2,14 +2,13 @@
 
 Este diretório contém a implementação da máquina de criptografia **Enigma** utilizada pelo simulador.
 
-A implementação foi dividida em componentes que representam as principais partes da máquina e em uma classe responsável por coordenar o fluxo completo de criptografia. Dessa forma, cada componente possui uma responsabilidade específica, enquanto `EnigmaMachine` integra todos eles para reproduzir o comportamento da máquina.
+A implementação foi dividida em componentes que representam as principais partes da máquina e em uma classe responsável por coordenar o funcionamento completo da criptografia. Dessa forma, cada componente possui uma responsabilidade específica, enquanto `EnigmaMachine` integra todos eles.
 
-## 🧩 Componentes
-
-A implementação é composta pelos seguintes arquivos:
+## 🧩 Estrutura do Módulo
 
 ```text
 enigma/
+├── README.md
 ├── __init__.py
 ├── catalog.py
 ├── enigma_machine.py
@@ -17,6 +16,8 @@ enigma/
 ├── reflector.py
 └── rotor.py
 ```
+
+## ⚙️ Componentes
 
 ### 🔄 `rotor.py`
 
@@ -26,127 +27,111 @@ Cada rotor possui:
 
 * uma **fiação interna** (`wiring`), responsável pelo mapeamento das 26 letras;
 * uma **posição atual**, que representa a letra exibida na janela do rotor;
-* um **notch**, utilizado para determinar quando o próximo rotor deve avançar.
+* um **notch**, utilizado no avanço dos rotores.
 
 A classe possui três responsabilidades principais:
 
-* `step()` avança o rotor em uma posição e informa se o notch foi atingido;
-* `forward()` processa o sinal no sentido da direita para a esquerda;
-* `backward()` processa o sinal no sentido inverso, da esquerda para a direita.
+* `step()` avança o rotor em uma posição;
+* `forward()` processa o sinal no sentido de entrada do rotor;
+* `backward()` processa o sinal no sentido inverso.
 
-A transformação realizada por `forward()` e `backward()` leva em consideração a posição atual do rotor, aplicando os deslocamentos necessários antes e depois do mapeamento da fiação.
+Os métodos de processamento consideram a posição atual do rotor para aplicar os deslocamentos necessários antes e depois da transformação realizada pela fiação.
 
 ### 🔁 `reflector.py`
 
 Implementa a classe `Reflector`, responsável pelo refletor da Enigma.
 
-O refletor possui uma fiação fixa de 26 caracteres e realiza um único mapeamento por meio do método `reflect()`.
+O refletor utiliza uma fiação fixa de 26 caracteres e realiza o mapeamento por meio do método `reflect()`.
 
-Durante sua inicialização, a classe também valida uma propriedade fundamental do refletor utilizado na implementação: nenhuma letra pode refletir para si mesma.
+Durante a inicialização, a classe também valida a configuração recebida, garantindo que uma letra não seja refletida para si mesma.
 
 ### 🔌 `plugboard.py`
 
-Implementa a classe `Plugboard`, responsável pelas conexões configuradas pelo operador antes do início da criptografia.
+Implementa a classe `Plugboard`, responsável pelas conexões configuradas pelo operador.
 
-As conexões são armazenadas em um dicionário e são sempre bidirecionais. Por exemplo:
+As conexões são armazenadas de forma bidirecional. Por exemplo:
 
 ```text
 A ↔ B
 C ↔ D
 ```
 
-A classe valida:
+A classe valida as conexões para evitar:
 
-* se cada conexão possui exatamente duas letras;
-* se uma letra não está conectada a ela mesma;
-* se uma letra não está sendo utilizada em mais de uma conexão.
+* pares com quantidade incorreta de letras;
+* uma letra conectada a si mesma;
+* uma mesma letra utilizada em múltiplas conexões.
 
-O método `swap()` realiza a substituição de uma letra de acordo com as conexões configuradas. Letras sem conexão permanecem inalteradas.
+O método `swap()` realiza a substituição de acordo com as conexões configuradas. Letras que não possuem uma conexão permanecem inalteradas.
 
 ### 🗂️ `catalog.py`
 
-Concentra as configurações dos rotores e refletores utilizados pelo simulador.
+Centraliza as configurações dos rotores e refletores utilizados pelo simulador.
 
-O arquivo mantém as fiações históricas dos rotores I, II, III, IV e V, juntamente com seus respectivos notches, além das fiações dos refletores B e C.
+O arquivo contém as fiações dos rotores I, II, III, IV e V, seus respectivos notches e as configurações dos refletores B e C.
 
-Também fornece duas funções utilizadas como fábrica de componentes:
+Também fornece funções para criar os componentes necessários:
 
-* `get_rotor()` cria um rotor a partir do modelo e da posição inicial informados;
+* `get_rotor()` cria um rotor a partir do modelo e da posição inicial;
 * `get_reflector()` cria um refletor a partir do modelo informado.
 
-Assim, as demais partes do projeto não precisam armazenar diretamente as fiações de cada componente.
+Isso permite que os demais módulos solicitem os componentes sem precisar conhecer diretamente suas fiações.
 
 ### ⚙️ `enigma_machine.py`
 
-Implementa a classe `EnigmaMachine`, responsável por integrar todos os componentes anteriores e reproduzir o fluxo da máquina.
+Implementa a classe `EnigmaMachine`, responsável por integrar os componentes anteriores e executar o processo completo de criptografia.
 
-Na inicialização, a classe exige exatamente três rotores e armazena:
+A máquina recebe:
 
-* o `Plugboard`;
-* os três `Rotor`;
-* o `Reflector`.
+* um `Plugboard`;
+* três `Rotor`;
+* um `Reflector`.
 
-O método `process_char()` executa o processamento de um caractere em etapas:
+O processamento de cada caractere segue o fluxo:
 
-```text
-Caractere
-    ↓
-Plugboard
-    ↓
-Rotor direito
-    ↓
-Rotor do meio
-    ↓
-Rotor esquerdo
-    ↓
-Reflector
-    ↓
-Rotor esquerdo
-    ↓
-Rotor do meio
-    ↓
-Rotor direito
-    ↓
-Plugboard
-    ↓
-Caractere resultante
+```mermaid
+flowchart LR
+    A[Caractere] --> B[Plugboard]
+    B --> C[Rotor direito]
+    C --> D[Rotor do meio]
+    D --> E[Rotor esquerdo]
+    E --> F[Reflector]
+    F --> G[Rotor esquerdo]
+    G --> H[Rotor do meio]
+    H --> I[Rotor direito]
+    I --> J[Plugboard]
+    J --> K[Caractere resultante]
 ```
 
-Antes de processar o caractere, o rotor da direita avança. Quando ele atinge seu notch, o rotor do meio também avança; caso o rotor do meio atinja seu notch, o rotor da esquerda avança.
+Antes do processamento, o rotor da direita avança. O avanço dos demais rotores depende da posição de seus notches.
 
-O método `process_message()` aplica esse processo a todos os caracteres da mensagem, preservando espaços e pontuação.
+O método `process_char()` executa o processamento de um caractere individual, enquanto `process_message()` aplica esse processo a toda a mensagem.
 
-## 🔗 Relação entre os componentes
+## 🔗 Relação entre os Componentes
 
-A organização do módulo segue uma divisão de responsabilidades:
+Os componentes do módulo possuem responsabilidades distintas, mas trabalham em conjunto através de `EnigmaMachine`.
 
-```text
-                  ┌──────────────┐
-                  │   Catalog    │
-                  └──────┬───────┘
-                         │
-              cria componentes
-                         ↓
-┌────────────┐     ┌───────────────┐     ┌────────────┐
-│ Plugboard  │     │    Rotors     │     │ Reflector  │
-└──────┬─────┘     └───────┬───────┘     └─────┬──────┘
-       │                   │                   │
-       └───────────────────┼───────────────────┘
-                           ↓
-                  ┌─────────────────┐
-                  │ EnigmaMachine   │
-                  └─────────────────┘
-                           │
-                           ↓
-                     Texto cifrado
+```mermaid
+flowchart TD
+    A[catalog.py] --> B[get_rotor]
+    A --> C[get_reflector]
+
+    B --> D[Rotor]
+    C --> E[Reflector]
+
+    D --> F[EnigmaMachine]
+    E --> F
+    G[Plugboard] --> F
+
+    F --> H[Criptografia]
 ```
 
-`catalog.py` fornece as configurações dos componentes, enquanto `EnigmaMachine` coordena seu funcionamento. Os demais arquivos representam partes independentes da máquina.
+`catalog.py` fornece as configurações dos componentes, enquanto `EnigmaMachine` coordena o funcionamento da máquina.
 
-## 📌 Papel do módulo no projeto
+## 🧠 Papel do Módulo no Projeto
 
-O módulo `enigma` é a base de todo o simulador.
+O módulo `enigma` é a base do simulador.
 
-A aplicação principal utiliza `EnigmaMachine` para realizar a criptografia, enquanto o módulo de criptoanálise também cria instâncias da mesma máquina para testar diferentes configurações durante a tentativa de quebra.
+Ele é utilizado diretamente pela aplicação principal para realizar a criptografia e também pela etapa de criptoanálise para reproduzir o comportamento da máquina em diferentes configurações.
 
-Isso significa que a implementação da Enigma não é utilizada apenas para produzir o texto cifrado: ela também é reutilizada durante o processo de criptoanálise para reproduzir exatamente o comportamento da máquina em cada configuração testada.
+Assim, a mesma implementação da Enigma é utilizada tanto para gerar o texto cifrado quanto para testar configurações durante o processo de recuperação da chave.
