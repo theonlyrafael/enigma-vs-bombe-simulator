@@ -66,5 +66,5 @@ A partir dessas informações, o simulador realiza a busca pelas configurações
 
 Para manter este README focado na utilização e na visão geral do projeto, os detalhes de implementação estão documentados separadamente:
 
-- 📖 [`enigma/README.md`](enigma/README.md) — funcionamento da implementação da Enigma e contribuição de cada arquivo do módulo.
-- 🔎 [`cryptanalysis/README.md`](cryptanalysis/README.md) — funcionamento da criptoanálise, da Bombe e contribuição de cada arquivo do módulo.
+- [`enigma/README.md`](enigma/README.md) — funcionamento da implementação da Enigma e contribuição de cada arquivo do módulo.
+- [`cryptanalysis/README.md`](cryptanalysis/README.md) — funcionamento da criptoanálise, da Bombe e contribuição de cada arquivo do módulo.
