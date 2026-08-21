@@ -61,3 +61,10 @@ Para iniciar o processo, serão solicitados:
 - **Texto claro conhecido:** uma palavra ou fragmento que se sabe estar presente na mensagem original
 
 A partir dessas informações, o simulador realiza a busca pelas configurações possíveis e apresenta os resultados encontrados, incluindo a posição inicial identificada, o tempo de execução e a mensagem decifrada.
+
+## 📚 Documentação
+
+Para manter este README focado na utilização e na visão geral do projeto, os detalhes de implementação estão documentados separadamente:
+
+- 📖 [`enigma/README.md`](enigma/README.md) — funcionamento da implementação da Enigma e contribuição de cada arquivo do módulo.
+- 🔎 [`cryptanalysis/README.md`](cryptanalysis/README.md) — funcionamento da criptoanálise, da Bombe e contribuição de cada arquivo do módulo.
